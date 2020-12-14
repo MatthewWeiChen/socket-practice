@@ -3,11 +3,6 @@ const socket2 = io("http://localhost:8000/wiki");
 const socket3 = io("http://localhost:8000/mozilla");
 const socket4 = io("http://localhost:8000/linux");
 
-socket.on("messageFromServer", (dataFromServer) => {
-  // console.log(dataFromServer);
-  socket.emit("messageToServer", { data: "this is the client" });
-});
-
 //listen for nsList, which is a list of all the namespaces
 
 socket.on("nsList", (nsData) => {
@@ -26,40 +21,4 @@ socket.on("nsList", (nsData) => {
       console.log(nsEndpoint);
     });
   });
-  const nsSocket = io("http://localhost:8000/wiki");
-  nsSocket.on("nsRoomLoad", (nsRooms) => {
-    // console.log(nsRooms);
-    let roomList = document.querySelector(".room-list");
-    roomList.innerHTML = "";
-    nsRooms.forEach((room) => {
-      let glpyh;
-      if (room.privateRoom) {
-        glpyh = "lock";
-      } else {
-        glpyh = "globe";
-      }
-      roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glpyh}"></span>${room.roomTitle}</li>`;
-    });
-    //add click listener to each room
-    let roomNodes = document.getElementsByClassName("room");
-    Array.from(roomNodes).forEach((elem) => {
-      elem.addEventListener("click", (e) => {
-        console.log("Someone clicked on", e.target.innerText);
-      });
-    });
-  });
-});
-
-socket2.on("welcome", (dataFromServer) => {
-  console.log(dataFromServer);
-});
-
-socket.on("joined", (msg) => {
-  console.log(msg);
-});
-
-document.querySelector(".message-form").addEventListener("submit", (event) => {
-  event.preventDefault();
-  const newMessage = document.querySelector("#user-message").value;
-  socket.emit("newMessageToServer", { text: newMessage });
 });
