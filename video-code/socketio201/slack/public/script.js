@@ -8,6 +8,18 @@ socket.on("messageFromServer", (dataFromServer) => {
   socket.emit("messageToServer", { data: "this is the client" });
 });
 
+//listen for nsList, which is a list of all the namespaces
+
+socket.on("nsList", (nsData) => {
+  // console.log("The list of namespaces has arrived!!");
+  console.log(nsData);
+  let namespacesDiv = document.querySelector(".namespaces");
+  namespacesDiv.innerHTML = "";
+  nsData.forEach((ns) => {
+    namespacesDiv.innerHTML += `<div class="namespace"><img src="${ns.img}" /></div>`;
+  });
+});
+
 socket2.on("welcome", (dataFromServer) => {
   console.log(dataFromServer);
 });

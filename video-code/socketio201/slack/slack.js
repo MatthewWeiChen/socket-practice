@@ -18,7 +18,7 @@ io.on("connection", (socket) => {
     };
   });
   console.log(nsData);
-  //send the nsData back to the client. We need to use socket, NOT io, because we want it to
+  //send the nsData back to the client. We need to use socket, NOT io, because we want it to send
   //to just this client.
   socket.emit("nsList", nsData);
 });
