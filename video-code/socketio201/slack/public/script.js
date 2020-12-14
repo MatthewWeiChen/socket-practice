@@ -4,7 +4,7 @@ const socket3 = io("http://localhost:8000/mozilla");
 const socket4 = io("http://localhost:8000/linux");
 
 socket.on("messageFromServer", (dataFromServer) => {
-  console.log(dataFromServer);
+  // console.log(dataFromServer);
   socket.emit("messageToServer", { data: "this is the client" });
 });
 
@@ -12,7 +12,7 @@ socket.on("messageFromServer", (dataFromServer) => {
 
 socket.on("nsList", (nsData) => {
   // console.log("The list of namespaces has arrived!!");
-  console.log(nsData);
+  // console.log(nsData);
   let namespacesDiv = document.querySelector(".namespaces");
   namespacesDiv.innerHTML = "";
   nsData.forEach((ns) => {
@@ -24,6 +24,28 @@ socket.on("nsList", (nsData) => {
     elem.addEventListener("click", (e) => {
       const nsEndpoint = elem.getAttribute("ns");
       console.log(nsEndpoint);
+    });
+  });
+  const nsSocket = io("http://localhost:8000/wiki");
+  nsSocket.on("nsRoomLoad", (nsRooms) => {
+    // console.log(nsRooms);
+    let roomList = document.querySelector(".room-list");
+    roomList.innerHTML = "";
+    nsRooms.forEach((room) => {
+      let glpyh;
+      if (room.privateRoom) {
+        glpyh = "lock";
+      } else {
+        glpyh = "globe";
+      }
+      roomList.innerHTML += `<li class="room"><span class="glyphicon glyphicon-${glpyh}"></span>${room.roomTitle}</li>`;
+    });
+    //add click listener to each room
+    let roomNodes = document.getElementsByClassName("room");
+    Array.from(roomNodes).forEach((elem) => {
+      elem.addEventListener("click", (e) => {
+        console.log("Someone clicked on", e.target.innerText);
+      });
     });
   });
 });
