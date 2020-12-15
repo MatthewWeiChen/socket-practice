@@ -30,8 +30,8 @@ function joinNs(endpoint) {
   });
   nsSocket.on("messageToClients", (msg) => {
     console.log(msg);
-    // const newMsg = buildHTML(msg);
-    document.querySelector("#messages").innerHTML += `<li>${msg.text}</li>`;
+    const newMsg = buildHTML(msg);
+    document.querySelector("#messages").innerHTML += newMsg;
   });
   document
     .querySelector(".message-form")
@@ -40,4 +40,21 @@ function joinNs(endpoint) {
       const newMessage = document.querySelector("#user-message").value;
       nsSocket.emit("newMessageToServer", { text: newMessage });
     });
+}
+
+function buildHTML(msg) {
+  const convertedDate = new Date(msg.time).toLocaleString();
+  const newHTML = `
+  <li>
+    <div class="user-image">
+      <img src="${msg.avatar}" />
+    </div>
+    <div class="user-message">
+    <div class="user-name-time">${msg.username} <span>${convertedDate}</span></div>
+    <div class="message-text">${msg.text}</div>
+    </div>
+ </li>
+`;
+
+  return newHTML;
 }
