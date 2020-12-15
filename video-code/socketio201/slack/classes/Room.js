@@ -10,6 +10,9 @@ class Room {
   addMessage(message) {
     this.history.push(message);
   }
+  clearHistory() {
+    this.history = [];
+  }
 }
 
 module.exports = Room;
