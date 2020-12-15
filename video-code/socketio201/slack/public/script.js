@@ -1,8 +1,4 @@
-const socket = io("http://localhost:8000"); //the namespace/endpoint
-const socket2 = io("http://localhost:8000/wiki");
-const socket3 = io("http://localhost:8000/mozilla");
-const socket4 = io("http://localhost:8000/linux");
-
+const socket = io("http://localhost:8000");
 //listen for nsList, which is a list of all the namespaces
 
 socket.on("nsList", (nsData) => {
