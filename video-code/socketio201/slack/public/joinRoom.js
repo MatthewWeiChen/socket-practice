@@ -5,4 +5,7 @@ function joinRoom(roomName) {
       ".curr-room-num-users"
     ).innerHTML = `${newNumberOfMembers} <span class="glyphicon glyphicon-user"></span>`;
   });
+  nsSocket.on("historyCatchUp", (history) => {
+    console.log(history);
+  });
 }
