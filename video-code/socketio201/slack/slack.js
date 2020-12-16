@@ -34,13 +34,16 @@ namespaces.forEach((namespace) => {
     nsSocket.on("joinRoom", (roomToJoin, numberOfUsersCallBack) => {
       //deal with history... once we have it
       nsSocket.join(roomToJoin);
-      const ids = io.of("/wiki").in(roomToJoin).sockets.size;
-      numberOfUsersCallBack(ids);
+      const numberOfSockets = io.of("/wiki").in(roomToJoin).sockets.size;
+      numberOfUsersCallBack(numberOfSockets);
 
       const nsRoom = namespaces[0].rooms.find((room) => {
         return room.roomTitle === roomToJoin;
       });
       nsSocket.emit("historyCatchUp", nsRoom.history);
+
+      //send back the number of users in this room to ALL sockets connected to this room
+      io.of("/wiki").in(roomToJoin).emit("updateMembers", numberOfSockets);
     });
 
     nsSocket.on("newMessageToServer", (msg) => {
