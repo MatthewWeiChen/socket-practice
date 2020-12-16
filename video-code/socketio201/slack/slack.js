@@ -10,6 +10,7 @@ const expressServer = app.listen(8000);
 const io = socketio(expressServer);
 
 io.on("connection", (socket) => {
+  // console.log(socket.handshake);
   //build an array to send back with the img and endpoint for each namespace
   let nsData = namespaces.map((ns) => {
     return {
@@ -27,6 +28,7 @@ io.on("connection", (socket) => {
 namespaces.forEach((namespace) => {
   //console.log(namespace);
   io.of(namespace.endpoint).on("connection", (nsSocket) => {
+    const username = nsSocket.handshake.query.username;
     // console.log(`${nsSocket.id} has join ${namespace.endpoint}`);
     //a socket has connected to one of our chatgroup namespaces
     //send that ns group info back
@@ -54,7 +56,7 @@ namespaces.forEach((namespace) => {
       const fullMsg = {
         text: msg.text,
         time: Date.now(),
-        username: "rbunch",
+        username: username,
         avatar: "https://viaplaceholder.com/30",
       };
       // console.log(fullMsg);
