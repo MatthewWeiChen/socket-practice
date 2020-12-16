@@ -1,5 +1,12 @@
 function joinNs(endpoint) {
-  nsSocket = io(`http://localhost:8000/${endpoint}`);
+  if (nsSocket) {
+    //check to see if nsSocket is actually a socket
+    nsSocket.close();
+    //remove the eventListener before it's added again
+    document
+      .querySelector("#user-input")
+      .removeEventListener("submit", formSubmission);
+  }
   nsSocket = io(`http://localhost:8000${endpoint}`);
   nsSocket.on("nsRoomLoad", (nsRooms) => {
     // console.log(nsRooms)
@@ -35,11 +42,13 @@ function joinNs(endpoint) {
   });
   document
     .querySelector(".message-form")
-    .addEventListener("submit", (event) => {
-      event.preventDefault();
-      const newMessage = document.querySelector("#user-message").value;
-      nsSocket.emit("newMessageToServer", { text: newMessage });
-    });
+    .addEventListener("submit", formSubmission);
+}
+
+function formSubmission(event) {
+  event.preventDefault();
+  const newMessage = document.querySelector("#user-message").value;
+  nsSocket.emit("newMessageToServer", { text: newMessage });
 }
 
 function buildHTML(msg) {
