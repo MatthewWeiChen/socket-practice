@@ -22,4 +22,10 @@ function joinRoom(roomName) {
     ).innerHTML = `${numMembers} <span class="glyphicon glyphicon-user"></span>`;
     document.querySelector(".curr-room-text").innerText = `${roomName}`;
   });
+
+  let searchBox = document.querySelector("#search-box");
+  searchBox.addEventListener("input", (e) => {
+    console.log(e.target.value);
+    let messages = Array.from(document.getElementsByClassName("message=text"));
+  });
 }
