@@ -13,7 +13,7 @@ function draw(){
 
   //clamp the camera to the player
   const camX = -player.locX + canvas.width/2
-  const camY = -player.locX + canvas.height/2
+  const camY = -player.locY + canvas.height/2
 
   //translate allows us to move the canvas around
   context.translate(camX,camY)
