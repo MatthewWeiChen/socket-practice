@@ -1,10 +1,5 @@
 //client file
 
-function init() {
-  draw();
-  console.log(orbs);
-}
-
 player.locX = Math.floor(500 * Math.random() + 100);
 player.locY = Math.floor(500 * Math.random() + 100);
 
@@ -45,7 +40,6 @@ function draw() {
 }
 
 canvas.addEventListener("mousemove", (event) => {
-  console.log(event);
   const mousePosition = {
     x: event.clientX,
     y: event.clientY,
