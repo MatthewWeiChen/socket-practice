@@ -16,3 +16,7 @@ let socket = io.connect("http://localhost:8080");
 socket.on("initReturn", (data) => {
   orbs = data.orbs;
 });
+
+socket.on("tock", (data) => {
+  console.log(data);
+});

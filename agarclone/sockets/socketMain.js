@@ -20,9 +20,18 @@ let settings = {
 
 initGame();
 
+//issue a message to EVERY connected socket 30 fps
+setInterval(() => {
+  io.to("game").emit("tock", {
+    players,
+  });
+}, 33);
+
 io.sockets.on("connect", (socket) => {
   //a player has connected
   socket.on("init", (data) => {
+    //add the player to the game namespace
+    socket.join("game");
     //make a playerCongit object
     let playerConfig = new PlayerConfig(settings);
 
