@@ -1,8 +1,5 @@
 //client file
 
-player.locX = Math.floor(500 * Math.random() + 100);
-player.locY = Math.floor(500 * Math.random() + 100);
-
 function draw() {
   //reset the translation back to default
   context.setTransform(1, 0, 0, 1, 0, 0);
