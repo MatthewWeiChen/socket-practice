@@ -28,6 +28,7 @@ setInterval(() => {
 }, 33);
 
 io.sockets.on("connect", (socket) => {
+  let player = {};
   //a player has connected
   socket.on("init", (data) => {
     //add the player to the game namespace
@@ -39,12 +40,35 @@ io.sockets.on("connect", (socket) => {
     let playerData = new PlayerData(data.playerName, settings);
 
     //make a master player object to hold both
-    let player = new Player(socket.id, playerConfig, playerData);
+    player = new Player(socket.id, playerConfig, playerData);
 
     socket.emit("initReturn", {
       orbs,
     });
     players.push(playerData);
+  });
+  //the server sent over a tick.
+  socket.on("tick", (data) => {
+    speed = player.playerConfig.speed;
+    //update the playerConfig object with the new direction in data
+    //and at the same time create a local variable for this callback for readability
+    xV = data.playerConfig.xVector = data.xVector;
+    yV = data.playerConfig.yVector = data.yVector;
+
+    if (
+      (player.playerData.locX < 5 && player.playerData.xVector < 0) ||
+      (player.playerData.locX > 500 && xV > 0)
+    ) {
+      player.playerData.locY -= speed * yV;
+    } else if (
+      (player.playerData.locY < 5 && yV > 0) ||
+      (player.playerData.locY > 500 && yV < 0)
+    ) {
+      player.playerData.locX += speed * xV;
+    } else {
+      player.playerData.locX += speed * xV;
+      player.playerData.locY -= speed * yV;
+    }
   });
 });
 
