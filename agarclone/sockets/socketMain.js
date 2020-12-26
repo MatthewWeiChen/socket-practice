@@ -39,8 +39,8 @@ io.sockets.on("connect", (socket) => {
     setInterval(() => {
       io.to("game").emit("tock", {
         players,
-        playerX: player.PlayerData.locX,
-        playerY: player.PlayerData.locY,
+        playerX: player.playerData.locX,
+        playerY: player.playerData.locY,
       });
     }, 33);
 
